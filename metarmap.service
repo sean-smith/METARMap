@@ -3,9 +3,7 @@ Description=LED Metar Map
 After=network.target
 
 [Service]
-ExecStart=/home/pi/METARMap/refresh.sh
-Restart=always
-User=nobody  # Change this to the appropriate user if needed
+ExecStart=/home/pi/METARMap/.env/bin/python3 /home/pi/METARMap/metar.py
 
 [Install]
 WantedBy=multi-user.target

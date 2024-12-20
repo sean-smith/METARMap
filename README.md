@@ -60,6 +60,11 @@ I've created detailed instructions about the setup and parts used here: https://
  sudo systemctl status metarmap.timer
  ```
 
+To enable after rebooting the raspberry pi:
+
+```bash
+sudo systemctl enable metarmap.timer
+```
 
 ## Additional Wind condition blinking/fading functionality
 

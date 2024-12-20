@@ -8,26 +8,31 @@ I've created detailed instructions about the setup and parts used here: https://
 
 ## Software Setup
 
-* Install [Raspberry Pi OS Lite](https://www.raspberrypi.org/software/) on SD card
-* [Enable Wi-Fi and SSH](https://medium.com/@danidudas/install-raspbian-jessie-lite-and-setup-wi-fi-without-access-to-command-line-or-using-the-network-97f065af722e)
-* Install SD card and power up Raspberry Pi
-* SSH (using [Putty](https://www.putty.org) or some other SSH tool) into the Raspberry and configure password and timezones
-  * `passwd`
-  * `sudo raspi-config`
-* Update packages 
-  * `sudo apt-get update`
-  * `sudo apt-get upgrade`
-* Copy the **[metar.py](metar.py)**, **[pixelsoff.py](pixelsoff.py)**, **[airports](airports)**, **[refresh.sh](refresh.sh)** and **[lightsoff.sh](lightsoff.sh)** scripts into the pi home directory (/home/pi)
-* Install python3 and pip3 if not already installed
-  * `sudo apt-get install python3`
-  * `sudo apt-get install python3-pip`
-* Install required python libraries for the project
-  * [Neopixel](https://learn.adafruit.com/neopixels-on-raspberry-pi/python-usage): `sudo pip3 install rpi_ws281x adafruit-circuitpython-neopixel`
-* Attach WS8211 LEDs to Raspberry Pi, if you are using just a few, you can connect the directly, otherwise you may need to also attach external power to the LEDs. For my purpose with 22 powered LEDs it was fine to just connect it directly. You can find [more details about wiring here](https://learn.adafruit.com/neopixels-on-raspberry-pi/raspberry-pi-wiring).
-* Test the script by running it directly (it needs to run with root permissions to access the GPIO pins):
-  * `sudo python3 metar.py`
-* Make appropriate changes to the **[airports](airports)** file for the airports you want to use and change the **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script to the correct **`LED_COUNT`** (including NULLs if you have LEDS in between airports that will stay off) and **`LED_BRIGHTNESS`** if you want to change it
-* To run the script automatically when you power the Raspberry Pi, you will need to grant permissions to execute the **[refresh.sh](refresh.sh)** and **[lightsoff.sh](lightsoff.sh)** script and read permissions to the **[airports](airports)**, **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script using chmod:
+1. Install [Raspberry Pi OS Lite](https://www.raspberrypi.org/software/) on SD card
+2. [Enable Wi-Fi and SSH](https://medium.com/@danidudas/install-raspbian-jessie-lite-and-setup-wi-fi-without-access-to-command-line-or-using-the-network-97f065af722e)
+3. Install SD card and power up Raspberry Pi
+4. SSH (using [Putty](https://www.putty.org) or some other SSH tool) into the Raspberry and configure password and timezones
+
+5. Install python3 and pip3 if not already installed
+
+```bash
+python3 -m venv env
+source env/bin/activate
+pip3 install -r requirements.txt rpi_ws281x adafruit-circuitpython-neopixel
+python3 -m pip install --force-reinstall adafruit-blinka
+```
+
+6. Attach WS8211 LEDs to Raspberry Pi, if you are using just a few, you can connect the directly, otherwise you may need to also attach external power to the LEDs. For my purpose with 22 powered LEDs it was fine to just connect it directly. You can find [more details about wiring here](https://learn.adafruit.com/neopixels-on-raspberry-pi/raspberry-pi-wiring).
+
+7. Test the script by running it directly (it needs to run with root permissions to access the GPIO pins):
+
+```bash
+sudo $(which python3) metar.py
+```
+
+8. Make appropriate changes to the **[airports](airports)** file for the airports you want to use and change the **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script to the correct **`LED_COUNT`** (including NULLs if you have LEDS in between airports that will stay off) and **`LED_BRIGHTNESS`** if you want to change it
+
+9.  To run the script automatically when you power the Raspberry Pi, you will need to grant permissions to execute the **[refresh.sh](refresh.sh)** and **[lightsoff.sh](lightsoff.sh)** script and read permissions to the **[airports](airports)**, **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script using chmod:
   * `chmod +x filename` will grant execute permissions
   * `chmod +r filename` will grant write permissions
 * To have the script start up automatically and refresh in regular intervals, use crontab and set the appropriate interval. For an example you can refer to the [crontab](crontab) file in the GitHub repo (make sure you grant the file execute permissions beforehand to the refresh.sh and lightsoff.sh file). To edit your crontab type: **`crontab -e`**, after you are done with the edits, exit out by pressing **ctrl+x** and confirm the write operation

@@ -16,8 +16,8 @@ I've created detailed instructions about the setup and parts used here: https://
 5. Install python3 and pip3 if not already installed
 
 ```bash
-python3 -m venv env
-source env/bin/activate
+python3 -m venv .env
+source .env/bin/activate
 pip3 install -r requirements.txt rpi_ws281x adafruit-circuitpython-neopixel
 python3 -m pip install --force-reinstall adafruit-blinka
 ```
@@ -32,15 +32,21 @@ sudo $(which python3) metar.py
 
 8. Make appropriate changes to the **[airports](airports)** file for the airports you want to use and change the **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script to the correct **`LED_COUNT`** (including NULLs if you have LEDS in between airports that will stay off) and **`LED_BRIGHTNESS`** if you want to change it
 
-9.  To run the script automatically when you power the Raspberry Pi, you will need to grant permissions to execute the **[refresh.sh](refresh.sh)** and **[lightsoff.sh](lightsoff.sh)** script and read permissions to the **[airports](airports)**, **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script using chmod:
+9. To run the script automatically every 5 minutes, we've provided a systemd service. To install it, run:
 
+```bash
+sudo cp metarmap.service /etc/systemd/system/
+sudo cp metarmap.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable metarmap.timer
 ```
-chmod +x refresh.sh # will grant execute permissions
-chmod +r metar.py # will grant write permissions
+
+Next check on the status of the running program:
+
+```bash
+sudo systemctl status metarmap.timer
 ```
-* To have the script start up automatically and refresh in regular intervals, use crontab and set the appropriate interval. For an example you can refer to the [crontab](crontab) file in the GitHub repo (make sure you grant the file execute permissions beforehand to the refresh.sh and lightsoff.sh file). To edit your crontab type: **`crontab -e`**, after you are done with the edits, exit out by pressing **ctrl+x** and confirm the write operation
-  * The sample crontab will run the script every 5 minutes (the */5) between the hours of 7 to 21, which includes the 21 hour, so it means it will run until 21:55
-  * Then at 22:05 it will run the lightsoff.sh script, which will turn all the lights off
+
 
 ## Additional Wind condition blinking/fading functionality
 

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run My Custom Service every 5 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+Unit=metarmap.service
+
+[Install]
+WantedBy=timers.target
+

@@ -43,7 +43,7 @@ COLOR_HIGH_WINDS 	= (255,255,0) 		# Yellow
 # Do you want the METARMap to be static to just show flight conditions, or do you also want blinking/fading based on current wind conditions
 ACTIVATE_WINDCONDITION_ANIMATION = False	# Set this to False for Static or True for animated wind conditions
 #Do you want the Map to Flash white for lightning in the area
-ACTIVATE_LIGHTNING_ANIMATION = False		# Set this to False for Static or True for animated Lightning
+ACTIVATE_LIGHTNING_ANIMATION = False 	# Set this to False for Static or True for animated Lightning
 # Fade instead of blink
 FADE_INSTEAD_OF_BLINK	= True			# Set to False if you want blinking
 # Blinking Windspeed Threshold
@@ -57,7 +57,7 @@ BLINK_SPEED		= 1.0			# Float in seconds, e.g. 0.5 for half a second
 BLINK_TOTALTIME_SECONDS	= 300
 
 # ----- Daytime dimming of LEDs based on time of day or Sunset/Sunrise -----
-ACTIVATE_DAYTIME_DIMMING = False		# Set to True if you want to dim the map after a certain time of day
+ACTIVATE_DAYTIME_DIMMING = True		# Set to True if you want to dim the map after a certain time of day
 BRIGHT_TIME_START	= datetime.time(7,0)	# Time of day to run at LED_BRIGHTNESS in hours and minutes
 DIM_TIME_START		= datetime.time(19,0)	# Time of day to run at LED_BRIGHTNESS_DIM in hours and minutes
 LED_BRIGHTNESS_DIM	= 0.1			# Float from 0.0 (min) to 1.0 (max)

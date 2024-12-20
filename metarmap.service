@@ -1,0 +1,11 @@
+[Unit]
+Description=LED Metar Map
+After=network.target
+
+[Service]
+ExecStart=/home/pi/METARMap/refresh.sh
+Restart=always
+User=nobody  # Change this to the appropriate user if needed
+
+[Install]
+WantedBy=multi-user.target

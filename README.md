@@ -2,6 +2,10 @@
 
 Raspberry Pi project to visualize flight conditions on a map using WS8211 LEDs addressed via NeoPixel
 
+> [!NOTE]  
+> This is a fork of the main repo where I simplified the installation by adding a python virtual environment and using systemd instead of crontab to continually update it.
+
+
 ## Detailed instructions
 
 I've created detailed instructions about the setup and parts used here: https://slingtsi.rueker.com/making-a-led-powered-metar-map-for-your-wall/
@@ -11,41 +15,50 @@ I've created detailed instructions about the setup and parts used here: https://
 1. Install [Raspberry Pi OS Lite](https://www.raspberrypi.org/software/) on SD card
 2. [Enable Wi-Fi and SSH](https://medium.com/@danidudas/install-raspbian-jessie-lite-and-setup-wi-fi-without-access-to-command-line-or-using-the-network-97f065af722e)
 3. Install SD card and power up Raspberry Pi
-4. SSH (using [Putty](https://www.putty.org) or some other SSH tool) into the Raspberry and configure password and timezones
+4. SSH into the Raspberry Pi
+5. First clone this repo:
 
-5. Install python3 and pip3 if not already installed
+  ```bash
+  cd ~
+  git clone https://github.com/sean-smith/METARMap
+  ```
 
-```bash
-python3 -m venv .env
-source .env/bin/activate
-pip3 install -r requirements.txt rpi_ws281x adafruit-circuitpython-neopixel
-python3 -m pip install --force-reinstall adafruit-blinka
-```
+5. Install python3 and pip3 in a virtual environment
+
+ ```bash
+ python3 -m venv .env
+ source .env/bin/activate
+ pip3 install -r requirements.txt rpi_ws281x adafruit-circuitpython-neopixel
+ python3 -m pip install --force-reinstall adafruit-blinka
+ ```
 
 6. Attach WS8211 LEDs to Raspberry Pi, if you are using just a few, you can connect the directly, otherwise you may need to also attach external power to the LEDs. For my purpose with 22 powered LEDs it was fine to just connect it directly. You can find [more details about wiring here](https://learn.adafruit.com/neopixels-on-raspberry-pi/raspberry-pi-wiring).
 
+![image](https://github.com/user-attachments/assets/4bf6f407-2ed9-434b-bf68-a974044c33da)
+
+
 7. Test the script by running it directly (it needs to run with root permissions to access the GPIO pins):
 
-```bash
-sudo $(which python3) metar.py
-```
+ ```bash
+ sudo $(which python3) metar.py
+ ```
 
 8. Make appropriate changes to the **[airports](airports)** file for the airports you want to use and change the **[metar.py](metar.py)** and **[pixelsoff.py](pixelsoff.py)** script to the correct **`LED_COUNT`** (including NULLs if you have LEDS in between airports that will stay off) and **`LED_BRIGHTNESS`** if you want to change it
 
 9. To run the script automatically every 5 minutes, we've provided a systemd service. To install it, run:
 
-```bash
-sudo cp metarmap.service /etc/systemd/system/
-sudo cp metarmap.timer /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable metarmap.timer
-```
+ ```bash
+ sudo cp metarmap.service /etc/systemd/system/
+ sudo cp metarmap.timer /etc/systemd/system/
+ sudo systemctl daemon-reload
+ sudo systemctl enable metarmap.timer
+ ```
 
-Next check on the status of the running program:
+ Next check on the status of the running program:
 
-```bash
-sudo systemctl status metarmap.timer
-```
+ ```bash
+ sudo systemctl status metarmap.timer
+ ```
 
 
 ## Additional Wind condition blinking/fading functionality

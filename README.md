@@ -3,7 +3,7 @@
 Raspberry Pi project to visualize flight conditions on a map using WS8211 LEDs addressed via NeoPixel
 
 > [!NOTE]  
-> This is a fork of the main repo where I simplified the installation by adding a python virtual environment and using systemd instead of crontab to continually update it.
+> This is a fork of the [main repo](https://github.com/prueker/METARMap) where I simplified the installation by adding a python virtual environment and using systemd instead of crontab to continually update it.
 
 
 ## Detailed instructions

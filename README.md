@@ -20,7 +20,7 @@ I've created detailed instructions about the setup and parts used here: https://
 
   ```bash
   cd ~
-  git clone https://github.com/sean-smith/METARMap
+  git clone https://github.com/sean-smith/METARMap && cd METARMap
   ```
 
 5. Install python3 and pip3 in a virtual environment

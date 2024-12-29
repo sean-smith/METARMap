@@ -66,6 +66,12 @@ To enable after rebooting the raspberry pi:
 sudo systemctl enable metarmap.timer
 ```
 
+10. Enable MOTD for easier login instructions:
+
+```bash
+bash motd.sh
+```
+
 ## Additional Wind condition blinking/fading functionality
 
 I recently expanded the script to also take wind condition into account and if the wind exceeds a certain threshold, or if it is gusting, make the LED for that airport either blink on/off or to fade between  two shades of the current flight category color.

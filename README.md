@@ -52,18 +52,26 @@ I've created detailed instructions about the setup and parts used here: https://
  sudo cp metarmap.timer /etc/systemd/system/
  sudo systemctl daemon-reload
  sudo systemctl enable metarmap.timer
+ sudo systemctl start metarmap.timer
  ```
 
  Next check on the status of the running program:
 
  ```bash
  sudo systemctl status metarmap.timer
+ sudo systemctl status metarmap.service
  ```
 
 To enable after rebooting the raspberry pi:
 
 ```bash
 sudo systemctl enable metarmap.timer
+```
+
+Next make sure the timer is counting down, it refreshes the LED's every 5 minutes
+
+```bash
+sudo systemctl status metarmap.timer
 ```
 
 10. Enable MOTD for easier login instructions:

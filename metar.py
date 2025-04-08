@@ -129,8 +129,17 @@ print("External Display:" + str(ACTIVATE_EXTERNAL_METAR_DISPLAY))
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness = LED_BRIGHTNESS_DIM if (ACTIVATE_DAYTIME_DIMMING and bright == False) else LED_BRIGHTNESS, pixel_order = LED_ORDER, auto_write = False)
 
 # Read the airports file to retrieve list of airports and use as order for LEDs
-with open("/home/pi/METARMap/airports.txt") as f:
-	airports = f.readlines()
+try:
+    with open("/home/pi/METARMap/airports.txt") as f:
+        airports = f.readlines()
+        print(f"Read {len(airports)} lines from airports.txt")
+        if len(airports) == 0:
+            print("Warning: airports.txt exists but is empty")
+            print(f"File path: {os.path.abspath('/home/pi/METARMap/airports.txt')}")
+except IOError as e:
+    print(f"Error reading airports.txt: {e}")
+    print(f"File path: {os.path.abspath('/home/pi/METARMap/airports.txt')}")
+    airports = []
 airports = [x.strip() for x in airports]
 try:
 	with open("/home/pi/displayairports") as f2:

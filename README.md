@@ -84,18 +84,18 @@ bash motd.sh
 
 To copy the `airports.txt` file automatically into `/home/pi/METARMap` folder from the sd card we need to do the following:
 
-1. Move the `copy-file.desktop` script into the right location:
+1. Move the `copy-file.service` script into the right location:
 
 ```bash
-sudo mv copy-file.desktop /etc/xdg/autostart/
-sudo chmod +x /etc/xdg/autostart/copy-file.desktop
+sudo mv copy-file.service /etc/systemd/system/
 ```
 
-2. Then move the `copy-file.sh` script to the boot directory:
+2. Next we need to enable the daemon:
 
 ```bash
-sudo mv copy-file.sh /boot/
-sudo chmod +x /boot/copy-file.sh
+sudo systemctl daemon-reload
+sudo systemctl enable copy-file.service
+sudo systemctl start copy-file.service
 ```
 
 3. Plug in the SD Card and create a file called `boot/airports.txt`

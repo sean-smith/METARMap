@@ -80,6 +80,28 @@ sudo systemctl status metarmap.timer
 bash motd.sh
 ```
 
+## Automatic airports.txt file
+
+To copy the `airports.txt` file automatically into `/home/pi/METARMap` folder from the sd card we need to do the following:
+
+1. Move the `copy-file.desktop` script into the right location:
+
+```bash
+mv copy-file.desktop /etc/xdg/autostart/
+sudo chmod +x /etc/xdg/autostart/copy-file.desktop
+```
+
+2. Then move the `copy-file.sh` script to the boot directory:
+
+```bash
+mv copy-file.sh /boot/
+sudo chmod +x /boot/copy-file.sh
+```
+
+3. Plug in the SD Card and create a file called `boot/airports.txt`
+
+4. Eject the SD card, power on the raspberry pi and it should have sourced the new airports.txt file.
+
 ## Additional Wind condition blinking/fading functionality
 
 I recently expanded the script to also take wind condition into account and if the wind exceeds a certain threshold, or if it is gusting, make the LED for that airport either blink on/off or to fade between  two shades of the current flight category color.

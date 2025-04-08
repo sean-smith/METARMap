@@ -87,14 +87,14 @@ To copy the `airports.txt` file automatically into `/home/pi/METARMap` folder fr
 1. Move the `copy-file.desktop` script into the right location:
 
 ```bash
-mv copy-file.desktop /etc/xdg/autostart/
+sudo mv copy-file.desktop /etc/xdg/autostart/
 sudo chmod +x /etc/xdg/autostart/copy-file.desktop
 ```
 
 2. Then move the `copy-file.sh` script to the boot directory:
 
 ```bash
-mv copy-file.sh /boot/
+sudo mv copy-file.sh /boot/
 sudo chmod +x /boot/copy-file.sh
 ```
 

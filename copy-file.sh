@@ -1,2 +1,2 @@
 #!/bin/bash
-cp /boot/airports.txt /home/pi/METARMap/
+cp /boot/firmware/airports.txt /home/pi/METARMap/

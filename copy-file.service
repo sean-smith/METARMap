@@ -1,0 +1,12 @@
+[Unit]
+Description=My Startup Script
+After=network.target  # Optional: Wait for network
+
+[Service]
+ExecStart=/home/pi/METARMap/copy-file.sh
+WorkingDirectory=/home/pi
+User=pi
+Restart=on-failure  # Optional: Auto-restart if crashes
+
+[Install]
+WantedBy=multi-user.target

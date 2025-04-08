@@ -1,4 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Copy File on Boot
-Exec=/boot/copy-file.sh

@@ -1,6 +1,7 @@
 [Unit]
 Description=LED Metar Map
-After=network.target
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ExecStart=/home/pi/METARMap/.env/bin/python3 /home/pi/METARMap/metar.py

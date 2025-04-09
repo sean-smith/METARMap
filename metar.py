@@ -91,6 +91,15 @@ OFFSET_LEGEND_BY = 0
 
 print("Running metar.py at " + datetime.datetime.now().strftime('%d/%m/%Y %H:%M'))
 
+# Check network connectivity by attempting to connect to a reliable host
+def check_network():
+    try:
+        # Try to connect to Google's homepage
+        urllib.request.urlopen("https://www.google.com", timeout=3)
+        return True
+    except (urllib.error.URLError, urllib.error.HTTPError):
+        return False
+
 # Figure out sunrise/sunset times if astral is being used
 if astral is not None and USE_SUNRISE_SUNSET:
 	try:
@@ -128,6 +137,14 @@ print("Daytime Dimming:" + str(ACTIVATE_DAYTIME_DIMMING) + (" using Sunrise/Suns
 print("External Display:" + str(ACTIVATE_EXTERNAL_METAR_DISPLAY))
 pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness = LED_BRIGHTNESS_DIM if (ACTIVATE_DAYTIME_DIMMING and bright == False) else LED_BRIGHTNESS, pixel_order = LED_ORDER, auto_write = False)
 
+# Check network connectivity
+# Set all LEDs to purple if not connected to the internet
+if not check_network():
+	print("No network connectivity detected - setting all LEDs to purple")
+	pixels.fill((255, 255, 0))
+	pixels.show()
+	quit()
+
 # Read the airports file to retrieve list of airports and use as order for LEDs
 try:
     with open("/home/pi/METARMap/airports.txt") as f:
@@ -138,8 +155,15 @@ try:
             print(f"File path: {os.path.abspath('/home/pi/METARMap/airports.txt')}")
 except IOError as e:
     print(f"Error reading airports.txt: {e}")
-    print(f"File path: {os.path.abspath('/home/pi/METARMap/airports.txt')}")
+    print(f"File path: '/home/pi/METARMap/airports.txt'")
     airports = []
+
+# Turn all LEDs yellow to indicate empty airports file
+if len(airports) == 0:
+	pixels.fill((255, 255, 0))
+	pixels.show()
+	quit()
+
 airports = [x.strip() for x in airports]
 try:
 	with open("/home/pi/displayairports") as f2:

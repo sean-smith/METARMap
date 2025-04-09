@@ -88,6 +88,7 @@ To copy the `airports.txt` file automatically into `/home/pi/METARMap` folder fr
 
 ```bash
 sudo mv copy-file.service /etc/systemd/system/
+chmod +x copy-file.sh
 ```
 
 2. Next we need to enable the daemon:

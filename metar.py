@@ -141,7 +141,7 @@ pixels = neopixel.NeoPixel(LED_PIN, LED_COUNT, brightness = LED_BRIGHTNESS_DIM i
 # Set all LEDs to purple if not connected to the internet
 if not check_network():
 	print("No network connectivity detected - setting all LEDs to purple")
-	pixels.fill((255, 255, 0))
+	pixels.fill((0,125,125))
 	pixels.show()
 	quit()
 
@@ -152,7 +152,7 @@ try:
         print(f"Read {len(airports)} lines from airports.txt")
         if len(airports) == 0:
             print("Warning: airports.txt exists but is empty")
-            print(f"File path: {os.path.abspath('/home/pi/METARMap/airports.txt')}")
+            print(f"File path: '/home/pi/METARMap/airports.txt')")
 except IOError as e:
     print(f"Error reading airports.txt: {e}")
     print(f"File path: '/home/pi/METARMap/airports.txt'")
